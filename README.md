@@ -1,72 +1,62 @@
-# NextPulse | Advanced Next.js SSRF Exploitation Framework
+# NextPulse
 
-![NextPulse](https://img.shields.io/badge/NextPulse-Offensive%20Research%20Framework-ff0080?style=flat-square)
-![Python](https://img.shields.io/badge/python-3.10+-blue?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)
-![Research](https://img.shields.io/badge/research-active-red?style=flat-square)
-![Focus](https://img.shields.io/badge/focus-next.js%20ssrf-critical?style=flat-square)
-![Cloud](https://img.shields.io/badge/cloud-aws%20%7C%20azure%20%7C%20gcp-orange?style=flat-square)
+NextPulse is a focused SSRF exploitation framework for the Next.js WebSocket
+Upgrade Handler vulnerability, CVE-2026-44578. It fingerprints a Next.js
+target, confirms the vulnerable upgrade path, shapes the request to survive
+common filtering, and walks cloud metadata and local environment exposure to
+a validated credential. It ships as a single Python file.
 
-**CVE-2026-44578 | WebSocket Upgrade Handler SSRF**
+<p align="center">
+  <img src="logo.png" alt="NextPulse" width="340">
+</p>
 
-![NextPulse](logo.png)
+<br>
 
-## Affected Versions
+## What is NextPulse?
 
-- Next.js 13.4.13 → 15.5.15
-- Next.js 16.0.0 → 16.2.4
+NextPulse targets one bug in one place: the WebSocket Upgrade handler in
+Next.js. It detects the framework and version, drives the upgrade request
+through the SSRF path, and turns the response into evidence. When a metadata
+endpoint is reachable it extracts the credential and, where it can, validates
+it.
 
-## Fixed Versions
+The framework is built for authorized testing: security researchers, bug
+bounty hunters, red team operators, and offensive engineers working with
+consent.
 
-- 15.5.16
-- 16.2.5 (self-hosted only)
+<br>
 
----
+> One target, one bug, the shortest path to proof.
 
-## Overview
+<br>
 
-NextPulse is a professional SSRF exploitation framework designed for the Next.js WebSocket Upgrade Handler vulnerability (CVE-2026-44578).
+## Why this matters
 
----
+The WebSocket Upgrade handler sits in front of the server-side fetch path,
+and a misconfigured deployment lets a crafted upgrade request reach internal
+services. Cloud metadata services are the common prize: a reachable instance
+metadata endpoint hands out temporary credentials that carry real permissions.
 
-## Attack Surface Coverage
+## Affected and fixed versions
 
-- Advanced WebSocket smuggling
-- Header randomization & evasion
-- Cloud metadata extraction
-- Local environment exfiltration
-- Automated credential validation
-- Interactive operator shell
-- Multi-threaded mass scanning
-
-Built for:
-
-- Security Researchers
-- Bug Bounty Hunters
-- Red Team Operators
-- Offensive Security Engineers
-
----
+- Affected: Next.js 13.4.13 to 15.5.15, and 16.0.0 to 16.2.4.
+- Fixed: 15.5.16, and 16.2.5 for self-hosted deployments.
 
 ## Features
 
-- Accurate Next.js fingerprinting & version detection
-- Intelligent vulnerability confirmation
-- WebSocket Upgrade SSRF exploitation
-- WAF-aware request shaping & evasion
-- AWS IMDSv1 exploitation & credential extraction
-- Azure Managed Identity token extraction
-- GCP / DigitalOcean / Oracle / Alibaba support
-- Kubernetes metadata targeting
-- Local Environment Exfiltration (LEEx)
-- AWS credential validation via boto3
-- Automated S3 bucket enumeration
-- Interactive shell mode
-- JSON / JSONL session export
-- Multi-threaded high-speed scanning
-- Single-file deployment architecture
-
----
+- Accurate Next.js fingerprinting and version detection.
+- Confirmation of the vulnerable WebSocket upgrade path.
+- WAF-aware request shaping and evasion.
+- Cloud metadata retrieval for AWS, Azure, GCP, DigitalOcean, Oracle, and
+  Alibaba.
+- Kubernetes metadata targeting.
+- Local environment exfiltration.
+- AWS credential validation through boto3.
+- S3 bucket enumeration.
+- Interactive operator shell.
+- JSON and JSONL session export.
+- Multi-threaded scanning.
+- Single-file deployment.
 
 ## Installation
 
@@ -77,222 +67,131 @@ pip3 install -r requirements.txt
 chmod +x nextpulse.py
 ```
 
----
-
-## Requirements
-
-- Python 3.10 or higher
-- boto3 for AWS credential validation features
-
----
+Requires Python 3.10 or later and boto3 for the AWS validation features.
 
 ## Usage
 
-### Basic Scan
-
 ```bash
+# Single target
 python3 nextpulse.py -t https://target.com
-```
 
-### Interactive Mode
-
-```bash
+# Interactive shell
 python3 nextpulse.py -t https://target.com -i
-```
 
-### Automatic Exploitation
-
-```bash
+# Automatic exploitation
 python3 nextpulse.py -t https://target.com --auto --force
-```
 
-### Mass Scanning
-
-```bash
+# Mass scanning
 python3 nextpulse.py -f targets.txt --threads 50 --cloud all
-```
 
-### Pipe Mode
-
-```bash
+# From a pipeline
 cat targets.txt | python3 nextpulse.py --pipe
+
+# A specific SSRF target
+python3 nextpulse.py -t https://target.com \
+  --ssrf "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
 ```
 
-### Custom SSRF Target
-
-```bash
-python3 nextpulse.py \
--t https://target.com \
---ssrf "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
-```
-
----
-
-## Interactive Shell Commands
+## Interactive shell commands
 
 | Command | Description |
-|---|---|
-| `help` | Show available commands |
-| `cloud` | Detect cloud provider |
-| `aws` | Full AWS IMDS extraction |
+|---------|-------------|
+| `help` | show available commands |
+| `cloud` | detect the cloud provider |
+| `aws` | full AWS instance metadata extraction |
 | `azure` | Azure token extraction |
-| `scan` | Automated exploitation routine |
-| `url <http://...>` | Custom SSRF request |
-| `get <N>` | Execute preset target |
-| `list` | Show preset SSRF targets |
-| `history` | Show request history |
-| `telemetry` | Display traffic statistics |
-| `save` | Export session |
-| `quit` | Exit interactive shell |
-
----
+| `scan` | automated exploitation routine |
+| `url <http://...>` | custom SSRF request |
+| `get <N>` | run a preset target |
+| `list` | show preset SSRF targets |
+| `history` | show request history |
+| `telemetry` | show traffic statistics |
+| `save` | export the session |
+| `quit` | exit the interactive shell |
 
 ## Screenshots
 
-### 🔹 Terminal Banner
+### Terminal banner
+
 ![Banner](screenshots/banner.png)
 
-### 🔹 Cloud Metadata Extraction Flow
-![AWS Extraction](screenshots/aws-extraction.png)
+### Cloud metadata extraction
 
-### 🔹 Interactive Operator Mode
+![AWS extraction](screenshots/aws-extraction.png)
+
+### Interactive operator mode
+
 ![Interactive](screenshots/interactive.png)
 
-### 🔹 Local Environment Exfiltration
-![Local Exfiltration](screenshots/localfile-exfil.png)
+### Local environment exfiltration
 
-> All outputs are real-time execution snapshots from controlled testing environments.
+![Local exfiltration](screenshots/localfile-exfil.png)
 
----
+All screenshots are real captures from controlled lab runs.
 
-## Directory Structure
+## Detection and defensive guidance
 
-```text
+Indicators of exposure to look for:
+
+- Requests to internal metadata address ranges.
+- Unexpected internal DNS resolution from server-side components.
+- Abnormal WebSocket upgrade traffic.
+- Repeated probing of internal service endpoints.
+- Access attempts against system files or environment variables.
+
+Mitigations:
+
+- Restrict access to metadata services at the network layer.
+- Enforce authenticated metadata (IMDSv2 and equivalents).
+- Validate and sanitize server-side fetch operations.
+- Block internal address ranges at the application layer.
+- Monitor middleware logs for abnormal routing.
+
+## Repository structure
+
+```
 NextPulse/
-├── nextpulse.py
-├── requirements.txt
-├── README.md
-├── LICENSE
-├── .gitignore
-├── logo.png
-└── screenshots/
-    ├── aws-extraction.png
-    ├── interactive.png
-    └── localfile-exfil.png
+|-- nextpulse.py
+|-- requirements.txt
+|-- README.md
+|-- LICENSE
+|-- SECURITY.md
+|-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- PLAN.md
+|-- logo.png
+|-- screenshots/
+|   |-- banner.png
+|   |-- aws-extraction.png
+|   |-- interactive.png
+|   +-- localfile-exfil.png
++-- tests/
+    +-- test_nextpulse.py
 ```
 
----
+## Limitations
 
-## Threat Model
+- The framework evaluates only the WebSocket Upgrade SSRF path.
+- AWS validation requires boto3; other providers return extracted values
+  without validation.
+- Metadata reachability depends on the target network.
+- Results against production systems must stay within the authorized scope.
 
-This framework evaluates exposure conditions arising from:
+## References
 
-- Misconfigured server side request handling
-- Unsafe URL forwarding in middleware layers
-- Internal service routing exposure
-- Cloud metadata endpoint reachability
-- WebSocket upgrade request handling inconsistencies
+- CVE-2026-44578.
+- Next.js security advisories.
 
-It assumes usage only in authorized security testing environments.
+## Responsible use
 
----
-
-## Detection and Defensive Guidance
-
-Potential indicators of exposure include:
-
-- Requests to internal metadata IP ranges
-- Unexpected internal DNS resolution from server side components
-- Abnormal WebSocket upgrade traffic patterns
-- Repeated probing of internal service endpoints
-- Unauthorized access attempts to system level files or environment variables
-
-Recommended mitigations:
-
-- Restrict access to metadata services at network level
-- Enforce modern metadata authentication mechanisms
-- Validate and sanitize server side fetch operations
-- Block internal IP ranges from application layer requests
-- Monitor middleware request logs for abnormal routing behavior
-
----
-
-## Performance Profile
-
-- Lightweight single file architecture
-- Multi threaded scanning engine
-- Adaptive timeout handling
-- Minimal dependency footprint
-- Real time response classification
-
----
-
-## Research Positioning
-
-NextPulse is a security research framework intended for vulnerability analysis and defensive validation.
-
-It is designed to support understanding of SSRF conditions in modern web architectures and cloud environments.
-
-It should only be used in authorized environments.
-
----
-
-## Reproducibility
-
-All scanning and detection logic is designed for controlled environments and can be reproduced using:
-
-- local lab environments
-- intentionally vulnerable Next.js deployments
-- cloud metadata simulation environments
-
----
+NextPulse is built for authorized security research, defensive validation,
+education, and approved penetration testing. Using it against systems without
+explicit permission may violate law. You are responsible for lawful use.
 
 ## Author
 
-Syed Wajeeh-ul-Hassan Rizvi (@DeathShotXD)
-
----
-
-## Disclaimer
-
-This project is intended strictly for:
-
-- Authorized Security Research
-- Defensive Validation
-- Educational Purposes
-- Approved Penetration Testing
-
-Unauthorized usage against systems without explicit permission may violate laws and regulations.
-
-Users are solely responsible for ensuring lawful usage.
-
----
+Syed Wajeeh-ul-Hassan Rizvi (@DeathShotXD).
 
 ## License
 
-MIT License
-
-See the `LICENSE` file for full license text.
-
----
-
-## GitHub Topics
-
-```text
-ssrf
-nextjs
-nextjs-security
-bugbounty
-redteam
-offensivesecurity
-cloud-security
-pentesting
-cybersecurity
-research
-```
-
----
-
-## Star The Repository
-
-If you find this project useful, consider starring the repository.
+MIT. See [LICENSE](LICENSE).
