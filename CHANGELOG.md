@@ -11,6 +11,7 @@ Notable changes to NextPulse, newest first.
 
 ### Added
 
+- Animated README hero and section dividers in the project palette.
 - Continuous integration that compiles the script and runs the tests.
 - Unit tests for target parsing, fingerprinting, and header analysis.
 - Security policy, contributing guide, maintenance plan, and templates.

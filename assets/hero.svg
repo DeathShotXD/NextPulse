@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 460" width="1280" height="460" role="img" aria-labelledby="ptitle pdesc">
+  <title id="ptitle">NextPulse - CVE-2026-44578 WebSocket Upgrade SSRF framework</title>
+  <desc id="pdesc">Dark neon banner with a cyan and magenta heartbeat trace crossing three gates labeled upgrade, SSRF, and IMDS, ending at a recovered credential.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070b14"/>
+      <stop offset=".5" stop-color="#0a101c"/>
+      <stop offset="1" stop-color="#120817"/>
+    </linearGradient>
+    <radialGradient id="cyanGlow" cx=".16" cy=".2" r=".62">
+      <stop offset="0" stop-color="#2dd9ee" stop-opacity=".18"/>
+      <stop offset=".55" stop-color="#2dd9ee" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#2dd9ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="magentaGlow" cx=".94" cy=".14" r=".68">
+      <stop offset="0" stop-color="#ff2fb3" stop-opacity=".2"/>
+      <stop offset=".55" stop-color="#ff2fb3" stop-opacity=".045"/>
+      <stop offset="1" stop-color="#ff2fb3" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pulse" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2dd9ee"/>
+      <stop offset=".42" stop-color="#a8f6ff"/>
+      <stop offset=".68" stop-color="#ff2fb3"/>
+      <stop offset="1" stop-color="#9a6bff"/>
+    </linearGradient>
+    <linearGradient id="wordmark" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#eafcff"/>
+      <stop offset=".38" stop-color="#a8f6ff"/>
+      <stop offset=".7" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ffc4ea"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2dd9ee" stop-opacity="0"/>
+      <stop offset=".25" stop-color="#2dd9ee" stop-opacity=".4"/>
+      <stop offset=".55" stop-color="#ff2fb3" stop-opacity=".4"/>
+      <stop offset=".82" stop-color="#8dff4d" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#8dff4d" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#2dd9ee" stroke-opacity=".05" stroke-width="1"/>
+    </pattern>
+    <pattern id="scan" width="5" height="5" patternUnits="userSpaceOnUse">
+      <rect width="5" height="1" fill="#ffffff" fill-opacity=".016"/>
+    </pattern>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="lineGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+      .sans { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: 3.2px; fill: #2dd9ee; }
+      .micro { font-size: 9.5px; letter-spacing: 1.8px; fill: #72879a; }
+      .title { font-size: 70px; font-weight: 800; letter-spacing: -2.6px; fill: url(#wordmark); }
+      .subtitle { font-size: 15px; font-weight: 700; letter-spacing: 2px; fill: #ff2fb3; }
+      .lede { font-size: 13.5px; fill: #8fa4b8; }
+      .chip { font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; }
+      .panel-h { font-size: 9px; font-weight: 700; letter-spacing: 2.1px; }
+      .gate { font-size: 8px; font-weight: 700; letter-spacing: 1.6px; }
+      .readout { font-size: 9px; font-weight: 600; letter-spacing: .7px; }
+      .tiny { font-size: 8.5px; letter-spacing: 1.5px; fill: #6f8498; }
+      .trace { stroke-dasharray: 16 9; animation: trace 2.8s linear infinite; }
+      .packet { animation: packet 6.8s linear infinite; }
+      .twinkle { animation: twinkle 5.2s ease-in-out infinite; }
+      .sweep { animation: sweep 9s ease-in-out infinite; }
+      .glitch { animation: glitch 7.2s steps(1) infinite; }
+      .gatepulse { animation: gatepulse 3.4s ease-in-out infinite; }
+      .cursor { animation: cursor 1s steps(1) infinite; }
+      @keyframes trace { to { stroke-dashoffset: -50; } }
+      @keyframes packet { 0% { opacity:0; } 4% { opacity:1; } 92% { opacity:1; } 100% { opacity:0; } }
+      @keyframes twinkle { 0%,100% { opacity:.08; } 50% { opacity:.55; } }
+      @keyframes sweep { 0% { transform: translateY(-80px); opacity:0; } 10% { opacity:.55; } 80% { opacity:.18; } 100% { transform: translateY(270px); opacity:0; } }
+      @keyframes glitch { 0%,90%,100% { transform: translate(0,0); } 91% { transform: translate(2px,0); } 92% { transform: translate(-2px,1px); } 93% { transform: translate(1px,-1px); } }
+      @keyframes gatepulse { 0%,100% { opacity:.55; } 50% { opacity:1; } }
+      @keyframes cursor { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+      @media (prefers-reduced-motion: reduce) { .trace,.packet,.twinkle,.sweep,.glitch,.gatepulse,.cursor { animation: none; } }
+    </style>
+  </defs>
+
+  <rect width="1280" height="460" fill="url(#bg)"/>
+  <rect width="1280" height="460" fill="url(#grid)"/>
+  <rect width="1280" height="460" fill="url(#scan)"/>
+  <rect width="1280" height="460" fill="url(#cyanGlow)"/>
+  <rect width="1280" height="460" fill="url(#magentaGlow)"/>
+
+  <g><circle cx="742" cy="46" r="1.4" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:0.0s"/>
+    <circle cx="839" cy="107" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:0.4s"/>
+    <circle cx="936" cy="168" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:0.8s"/>
+    <circle cx="1033" cy="229" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:1.2s"/>
+    <circle cx="1130" cy="290" r="0.8" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:1.6s"/>
+    <circle cx="757" cy="351" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:2.0s"/>
+    <circle cx="854" cy="76" r="1.4" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:2.5s"/>
+    <circle cx="951" cy="137" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:2.9s"/>
+    <circle cx="1048" cy="198" r="0.8" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:3.3s"/>
+    <circle cx="1145" cy="259" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:3.7s"/>
+    <circle cx="772" cy="320" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:4.1s"/>
+    <circle cx="869" cy="381" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:4.5s"/>
+    <circle cx="966" cy="106" r="1.4" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:4.9s"/>
+    <circle cx="1063" cy="167" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:0.1s"/>
+    <circle cx="1160" cy="228" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:0.5s"/>
+    <circle cx="787" cy="289" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:0.9s"/>
+    <circle cx="884" cy="350" r="0.8" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:1.4s"/>
+    <circle cx="981" cy="75" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:1.8s"/>
+    <circle cx="1078" cy="136" r="1.4" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:2.2s"/>
+    <circle cx="1175" cy="197" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:2.6s"/>
+    <circle cx="802" cy="258" r="0.8" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:3.0s"/>
+    <circle cx="899" cy="319" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:3.4s"/>
+    <circle cx="996" cy="380" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:3.8s"/>
+    <circle cx="1093" cy="105" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:4.2s"/>
+    <circle cx="1190" cy="166" r="1.4" fill="#ff2fb3" opacity=".32" class="twinkle" style="animation-delay:4.6s"/>
+    <circle cx="817" cy="227" r="0.8" fill="#2dd9ee" opacity=".32" class="twinkle" style="animation-delay:5.0s"/></g>
+
+  <g fill="none" stroke="#eafcff" stroke-opacity=".26" stroke-width="1.2">
+    <path d="M26 66 V26 H66"/>
+    <path d="M1214 26 H1254 V66"/>
+    <path d="M26 394 V434 H66"/>
+    <path d="M1214 434 H1254 V394"/>
+  </g>
+
+  <!-- identity -->
+  <g transform="translate(64 54)">
+    <rect x="2" y="2" width="38" height="38" rx="10" fill="#2dd9ee" fill-opacity=".07" stroke="#2dd9ee" stroke-opacity=".5"/>
+    <path d="M8 24 H15 L18 15 L23 31 L27 20 L30 24 H35" fill="none" stroke="#ff2fb3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" filter="url(#lineGlow)"/>
+    <circle cx="35" cy="24" r="2" fill="#8dff4d"/>
+    <text x="54" y="15" class="mono eyebrow">NEXTPULSE</text>
+    <text x="54" y="31" class="mono micro">WEBSOCKET UPGRADE / SSRF / CVE-2026-44578</text>
+  </g>
+
+  <g class="glitch">
+    <text x="66" y="176" class="sans title" opacity=".3" fill="#ff2fb3" stroke="none">NextPulse</text>
+  </g>
+  <text x="64" y="174" class="sans title">NextPulse</text>
+  <rect x="64" y="186" width="150" height="2" fill="#ff2fb3" opacity=".55"/>
+  <rect x="222" y="184" width="74" height="1" fill="#2dd9ee" opacity=".45"/>
+
+  <text x="66" y="218" class="mono subtitle">ONE UPGRADE. ONE FETCH. THE SHORTEST PATH TO PROOF.</text>
+  <text x="66" y="246" class="sans lede">The WebSocket upgrade handler is the door. Cloud metadata is the reward.</text>
+
+  <g transform="translate(66 274)">
+    <rect x="0" y="0" width="206" height="30" rx="15" fill="#2dd9ee" fill-opacity=".06" stroke="#2dd9ee" stroke-opacity=".34"/>
+    <circle cx="16" cy="15" r="3.2" fill="#2dd9ee"/>
+    <text x="28" y="19" class="mono chip" fill="#a8f6ff">NEXT.JS 13.4.13 → 16.2.4</text>
+
+    <rect x="218" y="0" width="222" height="30" rx="15" fill="#ff2fb3" fill-opacity=".06" stroke="#ff2fb3" stroke-opacity=".36"/>
+    <circle cx="234" cy="15" r="3.2" fill="#ff2fb3"/>
+    <text x="246" y="19" class="mono chip" fill="#ffc4ea">AWS · AZURE · GCP · K8S</text>
+
+    <rect x="452" y="0" width="148" height="30" rx="15" fill="#8dff4d" fill-opacity=".05" stroke="#8dff4d" stroke-opacity=".3"/>
+    <circle cx="468" cy="15" r="3.2" fill="#8dff4d"/>
+    <text x="480" y="19" class="mono chip" fill="#d4ffb0">SINGLE FILE</text>
+  </g>
+
+  <text x="66" y="352" class="mono micro" fill="#8fa4b8" opacity=".85">FINGERPRINT · UPGRADE · SSRF · METADATA · VALIDATED CREDENTIAL</text>
+  <text x="64" y="410" class="mono micro">GITHUB.COM/DEATHSHOTXD/NEXTPULSE</text>
+
+  <!-- signal trace panel -->
+  <g transform="translate(744 52)">
+    <rect x="0" y="0" width="472" height="306" rx="14" fill="#070c14" fill-opacity=".94" stroke="#2dd9ee" stroke-opacity=".24"/>
+    <rect x="0" y="0" width="472" height="306" rx="14" fill="none" stroke="#ffffff" stroke-opacity=".04"/>
+    <path d="M0 38 H472" stroke="#eafcff" stroke-opacity=".07"/>
+    <circle cx="20" cy="19" r="4.2" fill="#ff6b6b" fill-opacity=".7"/>
+    <circle cx="35" cy="19" r="4.2" fill="#ffd166" fill-opacity=".7"/>
+    <circle cx="50" cy="19" r="4.2" fill="#8dff4d" fill-opacity=".75"/>
+    <text x="68" y="23" class="mono panel-h" fill="#2dd9ee">SIGNAL TRACE</text>
+    <text x="450" y="23" text-anchor="end" class="mono panel-h" fill="#ff2fb3">CVE-2026-44578</text>
+
+    <!-- gates -->
+    <g stroke="#2dd9ee" stroke-opacity=".14" stroke-dasharray="2 6">
+      <path d="M118 52 V266"/>
+      <path d="M242 52 V266"/>
+      <path d="M364 52 V266"/>
+    </g>
+    <g class="gatepulse">
+      <text x="118" y="65" text-anchor="middle" class="mono gate" fill="#2dd9ee">UPGRADE</text>
+      <text x="242" y="65" text-anchor="middle" class="mono gate" fill="#ff2fb3">SSRF</text>
+      <text x="364" y="65" text-anchor="middle" class="mono gate" fill="#8dff4d">IMDS</text>
+    </g>
+
+    <!-- oscilloscope grid -->
+    <g stroke="#2dd9ee" stroke-opacity=".05">
+      <path d="M14 110 H458"/>
+      <path d="M14 145 H458"/>
+      <path d="M14 180 H458"/>
+      <path d="M14 215 H458"/>
+      <path d="M14 250 H458"/>
+    </g>
+
+    <!-- the trace -->
+    <path d="M24 200 H68 L80 184 L92 214 L104 192 H122 L134 102 L148 240 L162 174 L174 198 H242 L254 162 L266 220 L278 124 L292 212 L304 174 H364 L376 96 L390 234 L404 180 H436" fill="none" stroke="#2dd9ee" stroke-opacity=".08" stroke-width="8"/>
+    <path d="M24 200 H68 L80 184 L92 214 L104 192 H122 L134 102 L148 240 L162 174 L174 198 H242 L254 162 L266 220 L278 124 L292 212 L304 174 H364 L376 96 L390 234 L404 180 H436" fill="none" stroke="url(#pulse)" stroke-width="2" stroke-linecap="round" class="trace" filter="url(#lineGlow)"/>
+    <circle r="3.6" fill="#ff2fb3" filter="url(#lineGlow)">
+      <animateMotion dur="6.8s" repeatCount="indefinite" path="M24 200 H68 L80 184 L92 214 L104 192 H122 L134 102 L148 240 L162 174 L174 198 H242 L254 162 L266 220 L278 124 L292 212 L304 174 H364 L376 96 L390 234 L404 180 H436" begin="-1.2s"/>
+    </circle>
+    <circle r="2" fill="#8dff4d">
+      <animateMotion dur="6.8s" repeatCount="indefinite" path="M24 200 H68 L80 184 L92 214 L104 192 H122 L134 102 L148 240 L162 174 L174 198 H242 L254 162 L266 220 L278 124 L292 212 L304 174 H364 L376 96 L390 234 L404 180 H436" begin="-1.2s"/>
+    </circle>
+
+    <!-- destination key -->
+    <g transform="translate(438 176)">
+      <circle cx="0" cy="0" r="14" fill="#8dff4d" fill-opacity=".08" stroke="#8dff4d" stroke-opacity=".4"/>
+      <circle cx="0" cy="0" r="5.2" fill="none" stroke="#8dff4d" stroke-width="1.6"/>
+      <path d="M5 0 H14 M10 0 V5 M13 0 V5" stroke="#8dff4d" stroke-width="1.6" stroke-linecap="round"/>
+      <text x="0" y="30" text-anchor="middle" class="mono gate" fill="#8dff4d" opacity=".8">KEY</text>
+    </g>
+
+    <!-- scan band -->
+    <g class="sweep">
+      <rect x="10" y="250" width="452" height="16" fill="url(#rail)" opacity=".2"/>
+    </g>
+
+    <!-- readout -->
+    <path d="M16 274 H456" stroke="#eafcff" stroke-opacity=".08"/>
+    <text x="18" y="292" class="mono readout" fill="#a8f6ff"><tspan fill="#8dff4d">[+]</tspan> 200 OK · IMDSv2 · token acquired</text>
+    <text x="454" y="292" text-anchor="end" class="mono readout" fill="#8fa4b8">T-3600s <tspan class="cursor" fill="#8dff4d">_</tspan></text>
+
+  </g>
+
+  <!-- chain strip -->
+  <g transform="translate(744 380)" class="mono tiny">
+    <circle cx="2" cy="4" r="2.2" fill="#2dd9ee"/>
+    <text x="12" y="8" fill="#2dd9ee">FINGERPRINT</text>
+    <path d="M94 4 H110" stroke="#2dd9ee" stroke-opacity=".4"/>
+    <path d="M106 1 L110 4 L106 7" fill="none" stroke="#2dd9ee" stroke-opacity=".5"/>
+    <text x="120" y="8" fill="#eafcff">UPGRADE</text>
+    <path d="M190 4 H206" stroke="#ff2fb3" stroke-opacity=".4"/>
+    <path d="M202 1 L206 4 L202 7" fill="none" stroke="#ff2fb3" stroke-opacity=".5"/>
+    <text x="216" y="8" fill="#eafcff">SSRF</text>
+    <path d="M260 4 H276" stroke="#ff2fb3" stroke-opacity=".4"/>
+    <path d="M272 1 L276 4 L272 7" fill="none" stroke="#ff2fb3" stroke-opacity=".5"/>
+    <text x="286" y="8" fill="#eafcff">METADATA</text>
+    <path d="M368 4 H384" stroke="#8dff4d" stroke-opacity=".4"/>
+    <path d="M380 1 L384 4 L380 7" fill="none" stroke="#8dff4d" stroke-opacity=".5"/>
+    <text x="394" y="8" fill="#8dff4d">CREDENTIAL</text>
+  </g>
+
+  <g fill="none" stroke="#2dd9ee" stroke-opacity=".22" stroke-width="1">
+    <path d="M744 306 h-24"/>
+    <path d="M1216 426 h24"/>
+  </g>
+</svg>

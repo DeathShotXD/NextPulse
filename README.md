@@ -1,4 +1,19 @@
-# NextPulse
+<p align="center">
+  <img src="assets/hero.svg" alt="NextPulse - a signal trace crossing upgrade, SSRF, and IMDS gates to a recovered credential" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/Python-3.10%2B-0b111c?style=flat-square&amp;logo=python&amp;logoColor=2dd9ee" alt="Python 3.10 or later"></a>
+  <img src="https://img.shields.io/badge/CVE-2026--44578-0b111c?style=flat-square&amp;logoColor=ff2fb3" alt="CVE-2026-44578">
+  <img src="https://img.shields.io/badge/SSRF-WebSocket%20upgrade-ff2fb3?style=flat-square" alt="WebSocket upgrade SSRF">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0b111c?style=flat-square" alt="MIT license"></a>
+  <a href="https://github.com/DeathShotXD/NextPulse/stargazers"><img src="https://img.shields.io/github/stars/DeathShotXD/NextPulse?style=flat-square&amp;color=8dff4d" alt="GitHub stars"></a>
+</p>
+
+<p align="center">
+  <strong>One upgrade. One fetch. The shortest path to proof.</strong><br>
+  A focused SSRF framework for the Next.js WebSocket Upgrade handler.
+</p>
 
 NextPulse is a focused SSRF exploitation framework for the Next.js WebSocket
 Upgrade Handler vulnerability, CVE-2026-44578. It fingerprints a Next.js
@@ -7,10 +22,8 @@ common filtering, and walks cloud metadata and local environment exposure to
 a validated credential. It ships as a single Python file.
 
 <p align="center">
-  <img src="logo.png" alt="NextPulse" width="340">
+  <img src="assets/divider.svg" alt="" width="100%">
 </p>
-
-<br>
 
 ## What is NextPulse?
 
@@ -28,7 +41,9 @@ consent.
 
 > One target, one bug, the shortest path to proof.
 
-<br>
+<p align="center">
+  <img src="assets/divider.svg" alt="" width="100%">
+</p>
 
 ## Why this matters
 
@@ -42,21 +57,17 @@ metadata endpoint hands out temporary credentials that carry real permissions.
 - Affected: Next.js 13.4.13 to 15.5.15, and 16.0.0 to 16.2.4.
 - Fixed: 15.5.16, and 16.2.5 for self-hosted deployments.
 
-## Features
+## Capability matrix
 
-- Accurate Next.js fingerprinting and version detection.
-- Confirmation of the vulnerable WebSocket upgrade path.
-- WAF-aware request shaping and evasion.
-- Cloud metadata retrieval for AWS, Azure, GCP, DigitalOcean, Oracle, and
-  Alibaba.
-- Kubernetes metadata targeting.
-- Local environment exfiltration.
-- AWS credential validation through boto3.
-- S3 bucket enumeration.
-- Interactive operator shell.
-- JSON and JSONL session export.
-- Multi-threaded scanning.
-- Single-file deployment.
+| Layer | What it does |
+|-------|--------------|
+| Fingerprint | Detects Next.js and checks the version against the affected ranges. |
+| Upgrade | Confirms the vulnerable WebSocket upgrade path before sending payloads. |
+| Shape | WAF-aware request shaping and filtering evasion. |
+| Cloud | Retrieves metadata for AWS, Azure, GCP, DigitalOcean, Oracle, Alibaba, and Kubernetes. |
+| Prove | Validates AWS credentials through boto3 and enumerates S3 buckets. |
+| Operate | Interactive shell, JSON and JSONL export, and multi-threaded scanning. |
+| Deploy | One Python file and one requirements file; no service to stand up. |
 
 ## Installation
 
@@ -129,6 +140,10 @@ python3 nextpulse.py -t https://target.com \
 
 All screenshots are real captures from controlled lab runs.
 
+<p align="center">
+  <img src="assets/divider.svg" alt="" width="100%">
+</p>
+
 ## Detection and defensive guidance
 
 Indicators of exposure to look for:
@@ -146,6 +161,10 @@ Mitigations:
 - Validate and sanitize server-side fetch operations.
 - Block internal address ranges at the application layer.
 - Monitor middleware logs for abnormal routing.
+
+<p align="center">
+  <img src="assets/divider.svg" alt="" width="100%">
+</p>
 
 ## Repository structure
 
